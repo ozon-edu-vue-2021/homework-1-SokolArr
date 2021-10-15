@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How much will</title>
+    <link rel="stylesheet" href="./style/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+
+<!--VUE app-->
+<section class="app vue-app">
+    <h1>VUE</h1>
+    <h2>How much will?</h2>
+    <p>{{ counter }} + 4</p>
+    <h3>Result: {{ result }}</h3>
+    <p>Counter:
+        <button class="button minOne" v-on:click="minOne">-1</button>
+        <button class="button plusOne" v-on:click="plusOne">+1</button>
+    </p>
+    <p>Step:
+        <button class="button minTwo" v-on:click="minTwo">-2</button>
+        <button class="button plusTwo" v-on:click="plusTwo">+2</button>
+    </p>
+
+</section>
+<!----------->
+<hr>
+<!--JS app--->
+<section class="app js-app">
+    <h1>JS</h1>
+    <h2>How much will?</h2>
+    <p><span class="counter"></span> + 4</p>
+    <h3>Result: <span class="result"></span></h3>
+    <p>Counter:
+        <button class="button minOne" v-on:click="minOne">-1</button>
+        <button class="button plusOne" v-on:click="plusOne">+1</button>
+    </p>
+    <p>Step:
+        <button class="button minTwo" v-on:click="minTwo">-2</button>
+        <button class="button plusTwo" v-on:click="plusTwo">+2</button>
+    </p>
+</section>
+<!----------->
+
+<!--VUE script-->
+<script>
+    var vue = new Vue({
+        el: '.vue-app',
+        data: {
+            counter: 1
+        },
+        methods: {
+            plusOne() {
+                this.counter += 1;
+            },
+            minOne() {
+                this.counter -= 1;
+            },
+            plusTwo() {
+                this.counter += 2;
+            },
+            minTwo() {
+                this.counter -= 2;
+            }
+        },
+        computed: {
+            result() {
+                return this.counter + 4;
+            }
+        }
+    })
+</script>
+<!-------------->
+
+<!--JS script--->
+<script>
+    const counterEl = document.querySelector('.js-app .counter');
+    const buttonMinOneEl = document.querySelector('.js-app .button.minOne');
+    const buttonPlusOneEl = document.querySelector('.js-app .button.plusOne');
+    const buttonMinTwoEl = document.querySelector('.js-app .button.minTwo');
+    const buttonPlusTwoEl = document.querySelector('.js-app .button.plusTwo');
+    const resultEl = document.querySelector('.js-app .result');
+
+
+    const data = {
+        counter: 1
+    }
+
+    const plusOne = function () {
+        data.counter += 1;
+        counterEl.textContent = data.counter;
+    };
+    const minOne = function () {
+        data.counter -= 1;
+        counterEl.textContent = data.counter;
+    };
+    const plusTwo = function () {
+        data.counter += 2;
+        counterEl.textContent = data.counter;
+    };
+    const minTwo = function () {
+        data.counter -= 2;
+        counterEl.textContent = data.counter;
+    };
+
+    function getRes() {
+        const res = data.counter + 4;
+        resultEl.textContent = res;
+    }
+
+    const queue = [getRes];
+
+    Object.keys(data).forEach(key => {
+        let value = data[key];
+        Object.defineProperty(data, key, {
+            get: function () {
+                //console.log('get');
+                return value;
+            },
+            set: function (newValue) {
+                //console.log('set');
+                value = newValue;
+                queue.forEach(fn => fn());
+            }
+        });
+    })
+    counterEl.textContent = data.counter;
+    buttonMinOneEl.addEventListener('click', minOne);
+    buttonPlusOneEl.addEventListener('click', plusOne);
+    buttonMinTwoEl.addEventListener('click', minTwo);
+    buttonPlusTwoEl.addEventListener('click', plusTwo);
+</script>
+<!------------->
+</body>
+</html>
