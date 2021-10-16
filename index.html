@@ -13,7 +13,7 @@
     <section class="app vue-app">
       <h1>VUE</h1>
       <h2>How much will?</h2>
-      <p>{{ counter }} + 4</p>
+      <p>{{ counter }} + {{step}}</p>
       <h3>Result: {{ result }}</h3>
       <p>
         Counter:
@@ -32,7 +32,7 @@
     <section class="app js-app">
       <h1>JS</h1>
       <h2>How much will?</h2>
-      <p><span class="counter"></span> + 4</p>
+      <p><span class="counter"></span> + <span class="step"></span></p>
       <h3>Result: <span class="result"></span></h3>
       <p>
         Counter:
@@ -53,6 +53,7 @@
         el: ".vue-app",
         data: {
           counter: 1,
+          step: 4,
         },
         methods: {
           plusOne() {
@@ -62,15 +63,15 @@
             this.counter -= 1;
           },
           plusTwo() {
-            this.counter += 2;
+            this.step += 2;
           },
           minTwo() {
-            this.counter -= 2;
+            this.step -= 2;
           },
         },
         computed: {
           result() {
-            return this.counter + 4;
+            return this.counter + this.step;
           },
         },
       });
@@ -80,6 +81,7 @@
     <!--JS script--->
     <script>
       const counterEl = document.querySelector(".js-app .counter");
+      const stepEl = document.querySelector(".js-app .step");
       const buttonMinOneEl = document.querySelector(".js-app .button.minOne");
       const buttonPlusOneEl = document.querySelector(".js-app .button.plusOne");
       const buttonMinTwoEl = document.querySelector(".js-app .button.minTwo");
@@ -88,6 +90,7 @@
 
       const data = {
         counter: 1,
+        step: 4,
       };
 
       const plusOne = function () {
@@ -99,16 +102,16 @@
         counterEl.textContent = data.counter;
       };
       const plusTwo = function () {
-        data.counter += 2;
-        counterEl.textContent = data.counter;
+        data.step += 2;
+        stepEl.textContent = data.step;
       };
       const minTwo = function () {
-        data.counter -= 2;
-        counterEl.textContent = data.counter;
+        data.step -= 2;
+        stepEl.textContent = data.step;
       };
 
       function getRes() {
-        const res = data.counter + 4;
+        const res = data.counter + data.step;
         resultEl.textContent = res;
       }
 
@@ -129,6 +132,7 @@
         });
       });
       counterEl.textContent = data.counter;
+      stepEl.textContent = data.step;
       buttonMinOneEl.addEventListener("click", minOne);
       buttonPlusOneEl.addEventListener("click", plusOne);
       buttonMinTwoEl.addEventListener("click", minTwo);
